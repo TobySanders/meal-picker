@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      #These values are only for local use and are safe to commit, use secrets for anything else
+      POSTGRES_PASSWORD: password1$
+      POSTGRES_USER: admin
+      POSTGRES_DB: local_db
+    volumes:
+      - type: bind
+        source: ${POSTGRES_DATA_PATH:-../data/postgres}
+        target: /var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres-data:
