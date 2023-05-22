@@ -1,21 +1,21 @@
 -- create table recipes
-CREATE IF NOT EXISTS TABLE recipes (
+CREATE TABLE IF NOT EXISTS recipes (
   recipe_id serial8 PRIMARY KEY,
-  title varchar(50) NOT NULL UNIQUE CHECK valid_name (title ~ '^^(?!.*\s$)(?!^\s)(?!.*[^a-zA-Z\s])[a-zA-Z\s]+$'),
+  title varchar(50) NOT NULL UNIQUE CHECK (title ~ '^^(?!.*\s$)(?!^\s)(?!.*[^a-zA-Z\s])[a-zA-Z\s]+$'),
   description varchar(255),
   instructions json NOT NULL
 );
 
 -- create table recipe_ingredients
-CREATE IF NOT EXISTS TABLE recipe_ingredients (
+CREATE TABLE IF NOT EXISTS recipe_ingredients (
   recipe_id bigint NOT NULL,
   ingredient_id bigint NOT NULL,
   unit_id smallint NOT NULL,
-  quantity_left smallint NOT NULL CHECK gt_zero (quantity_left > 0),
-  quantity_right smallint CHECK null_or_gt_zero (quantity_right IS NULL OR quantity_right > 0),
+  quantity_left smallint NOT NULL CHECK (quantity_left > 0),
+  quantity_right smallint CHECK (quantity_right IS NULL OR quantity_right > 0),
   required boolean DEFAULT true,
   PRIMARY KEY (recipe_id, ingredient_id),
-  FOREIGN KEY (ingredient_id) REFERENCES ingredient_entry(ingredient_id),
+  FOREIGN KEY (ingredient_id) REFERENCES ingredients(ingredient_id),
   FOREIGN KEY (unit_id) REFERENCES units(unit_id),
   FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id)
 );
@@ -27,9 +27,10 @@ BEGIN
     RETURN QUERY
     SELECT ingredient_id FROM recipe_ingredients WHERE recipe_ingredients.recipe_id = recipe_id;
 END;
+$$ LANGUAGE plpgsql;
 
 -- create table recipe_tags
-CREATE IF NOT EXISTS TABLE recipe_tags (
+CREATE TABLE IF NOT EXISTS recipe_tags (
   recipe_id bigint NOT NULL,
   tag_id bigint NOT NULL,
   PRIMARY KEY (recipe_id, tag_id),
@@ -44,3 +45,4 @@ BEGIN
     RETURN QUERY
     SELECT tag_id FROM recipe_tags WHERE recipe_tags.recipe_id = recipe_id;
 END;
+$$ LANGUAGE plpgsql;

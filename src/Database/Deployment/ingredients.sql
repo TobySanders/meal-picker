@@ -1,5 +1,5 @@
 -- Create table ingredients
-CREATE IF NOT EXISTS TABLE ingredients (
+CREATE TABLE IF NOT EXISTS ingredients (
     ingredient_id serial8 PRIMARY KEY,
     cname varchar(30) UNIQUE,
     display_name varchar(30) NOT NULL,
@@ -16,14 +16,14 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Create the trigger on tags table
-CREATE TRIGGER set_ingredient_cname
+-- Create the trigger on ingredients table
+CREATE OR REPLACE TRIGGER set_ingredient_cname
 BEFORE INSERT ON ingredients
 FOR EACH ROW
 EXECUTE FUNCTION generate_cname();
 
 -- create ingredient supplier table
-CREATE IF NOT EXISTS TABLE ingredient_suppliers (
+CREATE TABLE IF NOT EXISTS ingredient_suppliers (
   ingredient_id bigint NOT NULL,
   supplier_id int NOT NULL,
   PRIMARY KEY (ingredient_id, supplier_id),
@@ -32,16 +32,17 @@ CREATE IF NOT EXISTS TABLE ingredient_suppliers (
 );
 
 -- create function to get ingredient suppliers
-CREATE OR REPLACE FUNCTION get_ingredient_suppliers(ingredient_id bigint)
+CREATE OR REPLACE FUNCTION get_ingredient_suppliers(p_ingredient_id bigint)
 RETURNS TABLE (supplier_id int) AS $$
 BEGIN
   RETURN QUERY
   SELECT supplier_id
-  FROM ingredient_suppliers WHERE ingredient_id = ingredient_id;
+  FROM ingredient_suppliers WHERE ingredient_id = p_ingredient_id;
 END;
+$$ LANGUAGE plpgsql;
 
 -- create ingredient tag table
-CREATE IF NOT EXISTS TABLE ingredient_tags (
+CREATE TABLE IF NOT EXISTS ingredient_tags (
   ingredient_id bigint NOT NULL,
   tag_id bigint NOT NULL,
   PRIMARY KEY (ingredient_id, tag_id),
@@ -50,10 +51,11 @@ CREATE IF NOT EXISTS TABLE ingredient_tags (
 );
 
 -- create function to get ingredient tags
-CREATE OR REPLACE FUNCTION get_ingredient_tags(ingredient_id bigint)
+CREATE OR REPLACE FUNCTION get_ingredient_tags(p_ingredient_id bigint)
 RETURNS TABLE (tag_id bigint) AS $$
 BEGIN
   RETURN QUERY
   SELECT tag_id
-  FROM ingredient_tags WHERE ingredient_id = ingredient_id;
+  FROM ingredient_tags WHERE ingredient_id = p_ingredient_id;
 END;
+$$ LANGUAGE plpgsql;

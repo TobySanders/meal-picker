@@ -13,8 +13,18 @@ services:
       - type: bind
         source: ${POSTGRES_DATA_PATH:-../data/postgres}
         target: /var/lib/postgresql/data
+      - "../src/Database/initdb:/docker-entrypoint-initdb.d"
     ports:
       - "5432:5432"
+  admin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.org
+      PGADMIN_DEFAULT_PASSWORD: password1$
+    ports:
+      - "8080:80"
+
 
 volumes:
   postgres-data:

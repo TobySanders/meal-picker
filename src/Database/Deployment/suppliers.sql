@@ -1,5 +1,5 @@
--- Create table ingredients
-CREATE IF NOT EXISTS TABLE suppliers (
+-- Create table suppliers
+CREATE TABLE IF NOT EXISTS suppliers (
     supplier_id serial4 PRIMARY KEY,
     cname varchar(50) UNIQUE,
     display_name varchar(50) NOT NULL,
@@ -15,7 +15,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Create the trigger on tags table
+-- Create the trigger on suppliers table
 CREATE TRIGGER set_supplier_cname
 BEFORE INSERT ON suppliers
 FOR EACH ROW

@@ -1,5 +1,5 @@
 -- Create table tags
-CREATE IF NOT EXISTS TABLE tags (
+CREATE TABLE IF NOT EXISTS tags (
     tag_id serial8 PRIMARY KEY,
     cname varchar(30) UNIQUE,
     type integer NOT NULL,
@@ -18,7 +18,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Create the trigger on tags table
-CREATE TRIGGER set_tag_cname
+CREATE OR REPLACE TRIGGER set_tag_cname
 BEFORE INSERT ON tags
 FOR EACH ROW
 EXECUTE FUNCTION generate_cname();

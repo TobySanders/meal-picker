@@ -1,10 +1,10 @@
 -- create table meal_plans
-CREATE IF NOT EXISTS table meal_plans(
-    meal_plan_id UUID PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS meal_plans(
+    meal_plan_id UUID PRIMARY KEY
 );
 
 -- create table meal_plan_recipes
-CREATE IF NOT EXISTS table meal_plan_recipes(
+CREATE TABLE IF NOT EXISTS meal_plan_recipes(
     meal_plan_id UUID NOT NULL,
     recipe_id bigint NOT NULL,
     PRIMARY KEY (meal_plan_id, recipe_id),
@@ -19,3 +19,4 @@ BEGIN
     RETURN QUERY
     SELECT recipe_id FROM meal_plan_recipes WHERE meal_plan_recipes.meal_plan_id = meal_plan_id;
 END;
+$$ LANGUAGE plpgsql;
