@@ -1,5 +1,5 @@
 -- Create table units
-CREATE TABLE units (
+CREATE IF NOT EXISTS TABLE units (
   unit_id serial2 PRIMARY KEY,
 
   symbol char(3) NOT NULL,

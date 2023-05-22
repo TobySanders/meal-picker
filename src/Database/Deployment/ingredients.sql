@@ -1,5 +1,5 @@
 -- Create table ingredients
-CREATE TABLE ingredients (
+CREATE IF NOT EXISTS TABLE ingredients (
     ingredient_id serial8 PRIMARY KEY,
     cname varchar(30) UNIQUE,
     display_name varchar(30) NOT NULL,
@@ -23,7 +23,7 @@ FOR EACH ROW
 EXECUTE FUNCTION generate_cname();
 
 -- create ingredient supplier table
-CREATE TABLE ingredient_suppliers (
+CREATE IF NOT EXISTS TABLE ingredient_suppliers (
   ingredient_id bigint NOT NULL,
   supplier_id int NOT NULL,
   PRIMARY KEY (ingredient_id, supplier_id),
@@ -41,7 +41,7 @@ BEGIN
 END;
 
 -- create ingredient tag table
-CREATE TABLE ingredient_tags (
+CREATE IF NOT EXISTS TABLE ingredient_tags (
   ingredient_id bigint NOT NULL,
   tag_id bigint NOT NULL,
   PRIMARY KEY (ingredient_id, tag_id),

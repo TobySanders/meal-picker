@@ -1,5 +1,5 @@
 -- Create table tag_types
-CREATE TABLE tag_types (
+CREATE IF NOT EXISTS TABLE tag_types (
     tag_type_id serial2 PRIMARY KEY,
     cname varchar(30) UNIQUE,
     display_name varchar(30) NOT NULL,

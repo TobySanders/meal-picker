@@ -1,5 +1,5 @@
 -- create table recipes
-CREATE TABLE recipes (
+CREATE IF NOT EXISTS TABLE recipes (
   recipe_id serial8 PRIMARY KEY,
   title varchar(50) NOT NULL UNIQUE CHECK valid_name (title ~ '^^(?!.*\s$)(?!^\s)(?!.*[^a-zA-Z\s])[a-zA-Z\s]+$'),
   description varchar(255),
@@ -7,7 +7,7 @@ CREATE TABLE recipes (
 );
 
 -- create table recipe_ingredients
-CREATE TABLE recipe_ingredients (
+CREATE IF NOT EXISTS TABLE recipe_ingredients (
   recipe_id bigint NOT NULL,
   ingredient_id bigint NOT NULL,
   unit_id smallint NOT NULL,
@@ -29,7 +29,7 @@ BEGIN
 END;
 
 -- create table recipe_tags
-CREATE TABLE recipe_tags (
+CREATE IF NOT EXISTS TABLE recipe_tags (
   recipe_id bigint NOT NULL,
   tag_id bigint NOT NULL,
   PRIMARY KEY (recipe_id, tag_id),

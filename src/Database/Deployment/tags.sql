@@ -1,5 +1,5 @@
 -- Create table tags
-CREATE TABLE tags (
+CREATE IF NOT EXISTS TABLE tags (
     tag_id serial8 PRIMARY KEY,
     cname varchar(30) UNIQUE,
     type integer NOT NULL,

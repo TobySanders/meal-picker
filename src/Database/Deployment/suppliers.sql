@@ -1,5 +1,5 @@
 -- Create table ingredients
-CREATE TABLE suppliers (
+CREATE IF NOT EXISTS TABLE suppliers (
     supplier_id serial4 PRIMARY KEY,
     cname varchar(50) UNIQUE,
     display_name varchar(50) NOT NULL,
