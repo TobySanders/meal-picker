@@ -8,11 +8,9 @@ services:
       #These values are only for local use and are safe to commit, use secrets for anything else
       POSTGRES_PASSWORD: password1$
       POSTGRES_USER: admin
-      POSTGRES_DB: local_db
+      POSTGRES_DB: mealpicker
     volumes:
-      - type: bind
-        source: ${POSTGRES_DATA_PATH:-../data/postgres}
-        target: /var/lib/postgresql/data
+      - ${POSTGRES_DATA_PATH:-../data/postgres}:/var/lib/postgresql/data
       - "../src/Database/initdb:/docker-entrypoint-initdb.d"
     ports:
       - "5432:5432"
